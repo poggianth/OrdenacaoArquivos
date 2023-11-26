@@ -16,19 +16,20 @@ public class VetConta {
 		this.vetor = new Conta[tamanho];
 		this.quant = 0;
 	}
-	
+
 	public Conta getConta(int posicao) {
 		return this.vetor[posicao];
 	}
-	
+
 	public void inserir(Conta conta) {
 		if (this.quant < vetor.length) {
-            vetor[this.quant] = conta;
-            this.quant++;
-        } else {
-            // Se o vetor estiver cheio, você pode considerar redimensioná-lo ou lançar uma exceção.
-            System.out.println("O vetor está cheio. Não é possível adicionar mais itens.");
-        }
+			vetor[this.quant] = conta;
+			this.quant++;
+		} else {
+			// Se o vetor estiver cheio, você pode considerar redimensioná-lo ou lançar uma
+			// exceção.
+			System.out.println("O vetor está cheio. Não é possível adicionar mais itens.");
+		}
 	}
 
 	public boolean carregarDados(String caminho) {
@@ -66,11 +67,11 @@ public class VetConta {
 
 	private void ordena(int esq, int dir) {
 		int i = esq, j = dir;
-		String pivo = this.vetor[(i + j) / 2].getCpf();
+		Conta pivo = this.vetor[(i + j) / 2];
 		do {
-			while (this.vetor[i].getCpf().compareTo(pivo) < 0)
+			while (compara(this.vetor[i], pivo) < 0)
 				i++;
-			while (this.vetor[j].getCpf().compareTo(pivo) > 0)
+			while (compara(this.vetor[j], pivo) > 0)
 				j--;
 			if (i <= j) {
 				Conta temp = this.vetor[i];
@@ -86,28 +87,38 @@ public class VetConta {
 			ordena(i, dir);
 	}
 
-	public void shellsort() {
-		int i, j, h;
-		Conta temp;
-		h = 1;
-		do {
-			h = 3 * h + 1;
-		} while (h < this.quant);
-
-		do {
-			h = h / 3;
-			for (i = h; i < this.quant; i++) {
-				temp = this.vetor[i];
-				j = i;
-				while (j - h >= 0 && this.vetor[j - h].getCpf().compareTo(temp.getCpf()) > 0) {
-					this.vetor[j] = this.vetor[j - h];
-					j -= h;
-				}
-				this.vetor[j] = temp;
-			}
-		} while (h != 1);
+	private int compara(Conta c1, Conta c2) {
+	    int resultadoCpf = c1.getCpf().compareTo(c2.getCpf());
+	    if (resultadoCpf != 0) {
+	        return resultadoCpf;
+	    } else {
+	        // Se os CPFs são iguais, compare por agência
+	        return Integer.compare(c1.getAgencia(), c2.getAgencia());
+	    }
 	}
 
+	public void shellsort() {
+	    int i, j, h;
+	    Conta temp;
+	    h = 1;
+	    do {
+	        h = 3 * h + 1;
+	    } while (h < this.quant);
+
+	    do {
+	        h = h / 3;
+	        for (i = h; i < this.quant; i++) {
+	            temp = this.vetor[i];
+	            j = i;
+	            while (j - h >= 0 && compara(this.vetor[j - h], temp) > 0) {
+	                this.vetor[j] = this.vetor[j - h];
+	                j -= h;
+	            }
+	            this.vetor[j] = temp;
+	        }
+	    } while (h != 1);
+	}
+	
 	public void gerarArquivo(String metodo) {
 		String diretorio = "./src/arquivos/" + metodo;
 		String nomeArquivo = "ordena" + metodo + this.quant + ".txt";
