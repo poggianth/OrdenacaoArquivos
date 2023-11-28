@@ -15,7 +15,7 @@ public class Menu {
 		int op;
 
 		do {
-			System.out.println("Escolha uma opção:" + "\n");
+			System.out.println("\nEscolha uma opção:" + "\n");
 			System.out.println("[ 1 ] Executar QuickSort");
 			System.out.println("[ 2 ] Executar ShellSort");
 			System.out.println("[ 3 ] Rodar Árvore ABB");
