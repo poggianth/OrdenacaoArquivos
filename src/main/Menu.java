@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 import arvoreABB.ArvoreAbb;
 import arvoreAVL.ArvoreAvl;
+import model.HashTable;
 import model.VetConta;
 
 public class Menu {
@@ -20,7 +21,7 @@ public class Menu {
 			System.out.println("[ 2 ] Executar ShellSort");
 			System.out.println("[ 3 ] Rodar Árvore ABB");
 			System.out.println("[ 4 ] Rodar Árvore AVL");
-			// System.out.println("[ 5 ] Rodar Hashing");
+			System.out.println("[ 5 ] Rodar Hashing");
 			System.out.println("[ 0 ] Sair\n");
 
 			System.out.print("Digite o número da opção desejada: ");
@@ -160,10 +161,40 @@ public class Menu {
 				}
 
 				break;
-//			case 5:
-//				System.out.println("Você escolheu Rodar Hashing");
-//				// new InitHash(conta500);
-//				break;
+			case 5:
+				System.out.println("Você escolheu Rodar Hashing");
+				
+				ArrayList<String> nomeArquivosHash = new ArrayList<String>();
+				nomeArquivosHash.add("conta500");
+				nomeArquivosHash.add("conta1000");
+				nomeArquivosHash.add("conta5000");
+				nomeArquivosHash.add("conta10000");
+				nomeArquivosHash.add("conta50000");
+				
+				for (int c = 0; c < nomeArquivosHash.size(); c++) {
+					int tamanhoArq = Integer.parseInt(nomeArquivosHash.get(c).split("conta")[1]);
+
+					try {
+						HashTable hashTable = new HashTable(tamanhoArq);
+						if (hashTable.carregarDados("./src/arquivos/" + nomeArquivosHash.get(c) + ".txt")) {
+							System.out.println("Tabela Hash carregada!");
+						}
+
+						System.out.println(
+								"=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-");
+						System.out.println(
+								"\n--------------------------------- PESQUISAR POR CPFs ---------------------------------");
+						
+						hashTable.pesquisarCpfArquivo("./src/arquivos/CPF.txt", tamanhoArq);
+
+						System.out.println(
+								"--------------------------------------------------------------------------------------\n");
+					} catch (Exception e) {
+						System.out.println("Erro ao carregar tabela HASH: " + e);
+					}
+				}
+				
+				break;
 			case 0:
 				System.out.println("Fim do programa.");
 				break;
